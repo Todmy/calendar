@@ -1,16 +1,12 @@
-import HelloWorld from "./components/HelloWorld";
+import Calendar from "./components/Calendar";
 
 const LibraryModule = {
-  HelloWorld,
+  Calendar,
 
   install(Vue) {
-    // Register components with vue
-    Vue.component("hello-world", HelloWorld);
+    Vue.component("Calendar", Calendar);
   }
 };
 
-// Export library
 export default LibraryModule;
-
-// Export components
-export { HelloWorld };
+export { Calendar };
