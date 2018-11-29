@@ -1,10 +1,10 @@
-import Calendar from "./components/Calendar";
+import Calendar from './components/Calendar';
 
 const LibraryModule = {
   Calendar,
 
   install(Vue) {
-    Vue.component("Calendar", Calendar);
+    Vue.component('Calendar', Calendar);
   }
 };
 

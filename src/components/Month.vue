@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div
-      v-for="(week, weekIndex) in weeks"
+      v-for="(week, weekIndex) in month"
       :key="weekIndex"
       class="row"
     >
@@ -18,22 +18,22 @@
 </template>
 
 <script>
-import Cell from "./Cell";
+import { getMonth } from './date-helpers.js'
+import Cell from './Cell';
 
 export default {
-  name: "Calendar",
+  name: 'Calendar',
   components: {
     Cell
   },
-  data: () => ({
-    weeks: [
-      [1, 2, 3, 4, 5, 6, 7],
-      [8, 9, 10, 11, 12, 13, 14],
-      [15, 16, 17, 18, 19, 20, 21],
-      [22, 23, 24, 25, 26, 27, 28],
-      [29, 30, 31, 0, 0, 0, 0]
-    ]
-  })
+  computed: {
+    currentMonth() {
+      return
+    },
+    month() {
+      return getMonth();
+    }
+  },
 };
 </script>
 

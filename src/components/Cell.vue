@@ -1,11 +1,16 @@
 <template>
-  <div class="cell">{{ data }}</div>
+  <div
+    class="cell"
+    :class="{
+      'grayed': !data.isThisMonth
+    }"
+  >{{ data.day }}</div>
 </template>
 
 <script>
 export default {
-  name: "Cell",
-  props: ["data"]
+  name: 'Cell',
+  props: ['data']
 };
 </script>
 
@@ -14,5 +19,10 @@ export default {
     border: 1px solid black;
     padding: 3px;
     margin: 2px;
+    min-height: 50px;
+
+    &.grayed {
+      color: gray
+    }
   }
 </style>
