@@ -1,0 +1,23 @@
+{
+  "name": "vue-calendar",
+  "version": "1.0.0",
+  "description": "Vue calendar without redundant dependencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Todmy/calendar.git"
+  },
+  "keywords": [
+    "vue",
+    "calendar"
+  ],
+  "author": "Todmy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Todmy/calendar/issues"
+  },
+  "homepage": "https://github.com/Todmy/calendar#readme"
+}
