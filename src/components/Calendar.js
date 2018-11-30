@@ -12,6 +12,12 @@ export default {
       type: String,
       default: 'month',
     },
+    options: {
+      type: Object,
+      default: () => ({
+        withHeader: true
+      })
+    }
   },
   render(h, { props }) {
     if (!props.type) {
@@ -19,6 +25,6 @@ export default {
     }
 
     const Component = CALENDAR_TYPES[props.type];
-    return Component ? h(Component, { props }) : null;
+    return Component ? h(Component, { props: props.options }) : null;
   },
 };
