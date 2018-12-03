@@ -1,25 +1,6 @@
 <template>
   <div class="container">
-    <div class="header" v-if="withHeader">
-      <div class="header-nav">
-        <div>
-          <button class="prev-month" @click="setMonth(-1)"></button>
-        </div>
-        <div class="title">{{ month.title }}</div>
-        <div>
-          <button class="next-month" @click="setMonth(+1)"></button>
-        </div>
-      </div>
-      <div class="header-row">
-        <div
-          v-for="(weekDay, weekDayIndex) in month.weekDays"
-          :key="weekDayIndex"
-          class="header-col"
-        >
-          {{ weekDay }}
-        </div>
-      </div>
-    </div>
+    <Header :month="month" @monthChange="setMonth" v-if="withHeader" />
     <div
       v-for="(week, weekIndex) in month.weeks"
       :key="weekIndex"
@@ -30,7 +11,10 @@
         :key="dayIndex"
         class="col"
       >
-        <Cell :data="day"/>
+        <Cell
+          @click.native="$emit('typeChange', { type: 'day', typeData: { date: day.fullDate } })"
+          :data="day"
+        />
       </div>
 
     </div>
@@ -38,18 +22,20 @@
 </template>
 
 <script>
-import { getCalendarMonthData, getPointerDate } from './date-helpers.js'
+import { startOfMonth, getCalendarMonthData, getPointerDate } from './date-helpers.js'
 import Cell from './MonthCell';
+import Header from './MonthHeader';
 
 export default {
-  name: 'Calendar',
+  name: 'Month',
   components: {
-    Cell
+    Cell,
+    Header,
   },
   data() {
     return {
       today: new Date(),
-      pointerDate: this.date,
+      pointerDate: this.options.date || startOfMonth(new Date()),
     }
   },
   props: {
@@ -57,9 +43,11 @@ export default {
       type: Boolean,
       default: true,
     },
-    date: {
-      type: Date,
-      default: () => new Date(),
+    options: {
+      type: Object,
+      default: () => ({
+        date: startOfMonth(new Date())
+      }),
     },
   },
   computed: {
@@ -68,13 +56,13 @@ export default {
     },
   },
   methods: {
-    setMonth(offset = 0) {
+    setMonth({ offset = 0 }) {
       this.pointerDate = getPointerDate(this.pointerDate, offset);
     },
     arrowListener({ code }) {
       if (!['ArrowRight', 'ArrowLeft'].includes(code)) return;
-      const monthOffset = code === 'ArrowRight' ? +1 : -1;
-      this.setMonth(monthOffset);
+      const offset = code === 'ArrowRight' ? +1 : -1;
+      this.setMonth({ offset });
     },
   },
   mounted() {
@@ -93,35 +81,11 @@ $cols-per-row: 7;
   display: flex;
   flex-direction: column;
 
-  .row, .header-row {
+  .row {
     display: flex;
 
-    .col, .header-col {
+    .col {
       min-width: calc(100% / 7);
-    }
-  }
-
-  .header-nav {
-    display: flex;
-    justify-content: space-between;
-
-    .next-month, .prev-month {
-      border: none;
-      background-color: #eee;
-      border-radius: 5px;
-
-      &:after {
-        font-weight: 700;
-        font-size: 200%;
-      }
-    }
-
-    .next-month:after {
-      content: "\203A";
-    }
-
-    .prev-month:after {
-      content: "\2039";
     }
   }
 }

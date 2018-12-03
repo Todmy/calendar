@@ -20,9 +20,10 @@ function getCalendarMonthData(options = {}) {
   const end = endOfMonth(date);
   const allDays = eachDayOfInterval({ start, end });
   const formatedWeeks = chain(allDays)
-    .groupBy(date => getWeek(date, options))
+    .groupBy(date => getWeek(date))
     .toPairs()
-    .sortBy(0)
+    // For meet edge cases of the end of a year
+    .sortBy(([key]) => (key === '1' ? 100 : +key))
     .map(1)
     .map(weekRecord => weekRecord.map(date => ({ date, isThisMonth: true })))
     .map(fillEmptyDays)
@@ -96,4 +97,4 @@ function getPointerDate(date, offset) {
   return monthFn(date, absOffset);
 }
 
-export { getCalendarMonthData, getPointerDate };
+export { startOfMonth, getCalendarMonthData, getPointerDate };

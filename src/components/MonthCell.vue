@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'Cell',
+  name: 'MonthCell',
   props: ['data']
 };
 </script>
