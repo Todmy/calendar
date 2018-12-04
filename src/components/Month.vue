@@ -12,7 +12,7 @@
         class="col"
       >
         <Cell
-          @click.native="$emit('typeChange', { type: 'day', typeData: { date: day.fullDate } })"
+          @click.native="$emit('typeChange', { type: 'day', typeData: { date: day.rawDate } })"
           :data="day"
         />
       </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { startOfMonth, getCalendarMonthData, getPointerDate } from './date-helpers.js'
+import { startOfMonth, getCalendarMonthData, getPointerDate } from './date-helpers'
 import Cell from './MonthCell';
 import Header from './MonthHeader';
 
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     setMonth({ offset = 0 }) {
-      this.pointerDate = getPointerDate(this.pointerDate, offset);
+      this.pointerDate = getPointerDate({ pivot: this.pointerDate, offset, range: 'month' });
     },
     arrowListener({ code }) {
       if (!['ArrowRight', 'ArrowLeft'].includes(code)) return;

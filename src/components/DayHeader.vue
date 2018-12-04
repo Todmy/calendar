@@ -2,55 +2,43 @@
   <div class="header">
     <div class="header-nav">
       <div>
-        <button class="prev-month" @click="setMonth(-1)"></button>
+        <button class="prev-month" @click="setDay(-1)"></button>
       </div>
-      <div class="title">{{ monthTitle }}</div>
+      <div class="title" @click="setDay()">{{ dayTitle }}</div>
       <div>
-        <button class="next-month" @click="setMonth(+1)"></button>
-      </div>
-    </div>
-    <div class="header-row">
-      <div
-        v-for="(weekDay, weekDayIndex) in month.weekDays"
-        :key="weekDayIndex"
-        class="header-col"
-      >
-        {{ weekDay }}
+        <button class="next-month" @click="setDay(+1)"></button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getDayTitle } from './date-helpers';
+
 export default {
-  name: 'MonthHeader',
+  name: 'DayHeader',
   props: {
-    month: {
-      type: Object,
+    day: {
+      type: Date,
       required: true,
     },
   },
   computed: {
-    monthTitle() {
-      return this.month.title;
-    },
+    dayTitle() {
+      return getDayTitle(this.day);
+    }
   },
   methods: {
-    setMonth(offset = 0) {
-      this.$emit('monthChange', { offset })
+    setDay(offset = 0) {
+      this.$emit('dayChange', { offset })
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-
-  .header-row {
-    display: flex;
-
-    .header-col {
-      min-width: calc(100% / 7);
-    }
+  .header {
+    margin-bottom: 10px;
   }
 
   .header-nav {

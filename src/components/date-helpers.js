@@ -1,4 +1,4 @@
-import {
+import dfns, {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
@@ -9,8 +9,8 @@ import {
   getMonth,
   getYear,
   format,
-  subMonths,
-  addMonths,
+  startOfDay,
+  setHours,
 } from 'date-fns';
 import { chain } from 'lodash';
 
@@ -65,7 +65,7 @@ function fillEmptyDays(week, index) {
 
 function formatDates(week) {
   return week.map(dateData => ({
-    fullDate: dateData.date,
+    rawDate: dateData.date,
     day: getDate(dateData.date),
     month: getMonth(dateData.date),
     year: getYear(dateData.date),
@@ -83,18 +83,38 @@ function formMonthData(weeks) {
 
 function transformToWeekDays(weeks) {
   const days = weeks[0];
-  return days.map(day => format(day.fullDate, 'E'));
+  return days.map(day => format(day.rawDate, 'E'));
 }
 
 function getMonthTitle(month) {
   const monthDay = [].concat(...month).find(date => date.isThisMonth);
-  return format(monthDay.fullDate, 'MMMM, uuuu');
+  return format(monthDay.rawDate, 'MMMM, uuuu');
 }
 
-function getPointerDate(date, offset) {
+function getDayTitle(day) {
+  return format(day, 'EEEE, MMMM dd, uuuu');
+}
+
+function getPointerDate({ pivot, offset, range = 'month' }) {
   const absOffset = Math.abs(offset);
-  const monthFn = offset < 0 ? subMonths : addMonths;
-  return monthFn(date, absOffset);
+  const fnSufix = range[0].toUpperCase() + range.slice(1) + 's';
+  const fnPrefix = offset < 0 ? 'sub' : 'add';
+  return dfns[`${fnPrefix}${fnSufix}`](pivot, absOffset);
 }
 
-export { startOfMonth, getCalendarMonthData, getPointerDate };
+function getDayData(date) {
+  const numberOfHours = 24;
+
+  return [...new Array(numberOfHours)]
+    .map(() => startOfDay(date))
+    .map((el, index) => setHours(el, index));
+}
+
+export {
+  startOfMonth,
+  getCalendarMonthData,
+  getPointerDate,
+  getDayTitle,
+  getDayData,
+  format,
+};

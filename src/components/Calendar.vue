@@ -19,9 +19,14 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'month',
+      default: 'day',
     },
-    options: Object,
+    options: {
+      type: Object,
+      default: () => ({
+        date: new Date(),
+      }),
+    },
   },
   data() {
     return {
