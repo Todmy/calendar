@@ -1,21 +1,23 @@
 <template>
   <div class="day">
-    <Header :day="pointerDate" @dayChange="setDate" v-if="withHeader" />
-    <DaySheet :day="pointerDate" />
+    <Header :day="pointerDate" @dayChange="setPeriod" v-if="withHeader" />
+    <Sheet :day="pointerDate" />
   </div>
 </template>
 
 <script>
-import { startOfMonth, getCalendarMonthData, getPointerDate } from './date-helpers'
-import Header from './DayHeader'
-import DaySheet from './DaySheet'
+import { startOfMonth, getPointerDate } from '../date-helpers';
+import ArrowNavigationMixin from '../eventsNavigation.mixin';
+import Header from './Header';
+import Sheet from './Sheet';
 
 export default {
   name: 'Day',
   components: {
     Header,
-    DaySheet,
+    Sheet,
   },
+  mixins: [ArrowNavigationMixin],
   props: {
     withHeader: {
       type: Boolean,
@@ -28,12 +30,11 @@ export default {
   },
   data() {
     return {
-      today: new Date(),
       pointerDate: this.options.date,
     }
   },
   methods: {
-    setDate({ offset = 0 }) {
+    setPeriod({ offset = 0 }) {
       if (offset !== 0) {
         this.pointerDate = getPointerDate({
           pivot: this.pointerDate,
@@ -48,17 +49,6 @@ export default {
         typeData: { date: this.pointerDate }
       })
     },
-    arrowListener({ code }) {
-      if (!['ArrowRight', 'ArrowLeft'].includes(code)) return;
-      const offset = code === 'ArrowRight' ? +1 : -1;
-      this.setDate({ offset });
-    },
-  },
-  mounted() {
-    window.addEventListener('keyup', this.arrowListener)
-  },
-  destroyed() {
-    window.removeEventListener('keyup', this.arrowListener)
   },
 };
 </script>

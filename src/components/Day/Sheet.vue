@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import { getDayData, format } from './date-helpers'
+import { getDayData, format } from '../date-helpers';
+
 export default {
   name: 'DaySheet',
   props: {

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <Header :month="month" @monthChange="setMonth" v-if="withHeader" />
+    <Header :month="month" @monthChange="setPeriod" v-if="withHeader" />
     <div
-      v-for="(week, weekIndex) in month.weeks"
+      v-for="(week, weekIndex) in month"
       :key="weekIndex"
       class="row"
     >
@@ -22,9 +22,10 @@
 </template>
 
 <script>
-import { startOfMonth, getCalendarMonthData, getPointerDate } from './date-helpers'
-import Cell from './MonthCell';
-import Header from './MonthHeader';
+import { startOfMonth, getCalendarMonthData, getPointerDate } from '../date-helpers'
+import ArrowNavigationMixin from '../eventsNavigation.mixin'
+import Cell from './Cell';
+import Header from './Header';
 
 export default {
   name: 'Month',
@@ -32,9 +33,9 @@ export default {
     Cell,
     Header,
   },
+  mixins: [ArrowNavigationMixin],
   data() {
     return {
-      today: new Date(),
       pointerDate: this.options.date || startOfMonth(new Date()),
     }
   },
@@ -45,9 +46,7 @@ export default {
     },
     options: {
       type: Object,
-      default: () => ({
-        date: startOfMonth(new Date())
-      }),
+      default: () => ({ date: startOfMonth(new Date()) }),
     },
   },
   computed: {
@@ -56,20 +55,9 @@ export default {
     },
   },
   methods: {
-    setMonth({ offset = 0 }) {
+    setPeriod({ offset = 0 }) {
       this.pointerDate = getPointerDate({ pivot: this.pointerDate, offset, range: 'month' });
     },
-    arrowListener({ code }) {
-      if (!['ArrowRight', 'ArrowLeft'].includes(code)) return;
-      const offset = code === 'ArrowRight' ? +1 : -1;
-      this.setMonth({ offset });
-    },
-  },
-  mounted() {
-    window.addEventListener('keyup', this.arrowListener)
-  },
-  destroyed() {
-    window.removeEventListener('keyup', this.arrowListener)
   },
 };
 </script>

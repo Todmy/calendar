@@ -19,7 +19,7 @@ function getCalendarMonthData(options = {}) {
   const start = startOfMonth(date);
   const end = endOfMonth(date);
   const allDays = eachDayOfInterval({ start, end });
-  const formatedWeeks = chain(allDays)
+  return chain(allDays)
     .groupBy(date => getWeek(date))
     .toPairs()
     // For meet edge cases of the end of a year
@@ -29,8 +29,6 @@ function getCalendarMonthData(options = {}) {
     .map(fillEmptyDays)
     .map(formatDates)
     .value();
-
-  return formMonthData(formatedWeeks);
 }
 
 function fillEmptyDays(week, index) {
@@ -73,28 +71,6 @@ function formatDates(week) {
   }));
 }
 
-function formMonthData(weeks) {
-  return {
-    title: getMonthTitle(weeks),
-    weekDays: transformToWeekDays(weeks),
-    weeks: weeks,
-  };
-}
-
-function transformToWeekDays(weeks) {
-  const days = weeks[0];
-  return days.map(day => format(day.rawDate, 'E'));
-}
-
-function getMonthTitle(month) {
-  const monthDay = [].concat(...month).find(date => date.isThisMonth);
-  return format(monthDay.rawDate, 'MMMM, uuuu');
-}
-
-function getDayTitle(day) {
-  return format(day, 'EEEE, MMMM dd, uuuu');
-}
-
 function getPointerDate({ pivot, offset, range = 'month' }) {
   const absOffset = Math.abs(offset);
   const fnSufix = range[0].toUpperCase() + range.slice(1) + 's';
@@ -114,7 +90,6 @@ export {
   startOfMonth,
   getCalendarMonthData,
   getPointerDate,
-  getDayTitle,
   getDayData,
   format,
 };

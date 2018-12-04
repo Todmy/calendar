@@ -2,18 +2,24 @@
   <div class="header">
     <div class="header-nav">
       <div>
-        <button class="prev-month" @click="setDay(-1)"></button>
+        <button
+          class="prev-month"
+          @click="setDay(-1)"
+        ></button>
       </div>
-      <div class="title" @click="setDay()">{{ dayTitle }}</div>
+      <div class="title" @click="setDay()">{{ day | formatedTitle }}</div>
       <div>
-        <button class="next-month" @click="setDay(+1)"></button>
+        <button
+          class="next-month"
+          @click="setDay(+1)"
+        ></button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getDayTitle } from './date-helpers';
+import { format } from '../date-helpers';
 
 export default {
   name: 'DayHeader',
@@ -23,14 +29,14 @@ export default {
       required: true,
     },
   },
-  computed: {
-    dayTitle() {
-      return getDayTitle(this.day);
-    }
-  },
   methods: {
     setDay(offset = 0) {
       this.$emit('dayChange', { offset })
+    },
+  },
+  filters: {
+    formatedTitle(value) {
+      return format(value, 'EEEE, MMMM dd, uuuu')
     },
   },
 }

@@ -4,14 +4,14 @@
       <div>
         <button class="prev-month" @click="setMonth(-1)"></button>
       </div>
-      <div class="title">{{ monthTitle }}</div>
+      <div class="title">{{ month | formatedTitle }}</div>
       <div>
         <button class="next-month" @click="setMonth(+1)"></button>
       </div>
     </div>
     <div class="header-row">
       <div
-        v-for="(weekDay, weekDayIndex) in month.weekDays"
+        v-for="(weekDay, weekDayIndex) in weekDays"
         :key="weekDayIndex"
         class="header-col"
       >
@@ -22,17 +22,26 @@
 </template>
 
 <script>
+import { format } from '../date-helpers';
+
 export default {
   name: 'MonthHeader',
   props: {
     month: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },
+  filters: {
+    formatedTitle(value) {
+      const monthDay = value[0].find(date => date.isThisMonth);
+      return format(monthDay.rawDate, 'MMMM, uuuu');
+    },
+  },
   computed: {
-    monthTitle() {
-      return this.month.title;
+    weekDays() {
+      const days = this.month[0];
+      return days.map(day => format(day.rawDate, 'E'));
     },
   },
   methods: {

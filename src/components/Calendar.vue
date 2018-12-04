@@ -19,13 +19,28 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'day',
+      default: 'month',
     },
     options: {
       type: Object,
       default: () => ({
         date: new Date(),
-      }),
+        data: [{
+          date: {
+            start: new Date(2014, 8, 1, 11, 30),
+            end: new Date(2014, 8, 1, 12, 0),
+          },
+          payload: {
+            id: 1,
+            name: 'hello world',
+            user: {
+              id: 2,
+              name: 'John Doe',
+              age: 42,
+            }
+          }
+        }]
+      })
     },
   },
   data() {
