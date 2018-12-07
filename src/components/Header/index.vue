@@ -2,19 +2,23 @@
   <div class="header">
     <div class="header-nav">
       <div class="title">{{ pointerDate | formatedTitle(forDay) }}</div>
-      <Navigation v-on="$listeners" />
+      <Navigation @periodChange="setPeriod" />
       <DetailPrecision v-on="$listeners" />
     </div>
   </div>
 </template>
 
 <script>
-import { format } from '../date-helpers';
+import { format, getPointerDate } from '../date-helpers';
 import Navigation from './HeaderNavigationBlock';
 import DetailPrecision from './DetailPrecision';
 
 export default {
   name: 'Header',
+  components: {
+    Navigation,
+    DetailPrecision,
+  },
   props: {
     pointerDate: {
       type: Date,
@@ -25,9 +29,16 @@ export default {
       default: false,
     },
   },
-  components: {
-    Navigation,
-    DetailPrecision,
+  methods: {
+    setPeriod(offset) {
+      let date = new Date();
+      if (offset !== 0) {
+        const range = this.forDay ? 'day' : 'month';
+        date = getPointerDate({ pivot: this.pointerDate, offset, range })
+      }
+
+      this.$emit('update:pointerDate', date)
+    }
   },
   filters: {
     formatedTitle(value, isForDay) {

@@ -2,7 +2,7 @@
   <div
     class="cell"
     :class="{
-      'grayed': !data.isThisMonth
+      'another-month': !data.isThisMonth
     }"
   >{{ data.day }}</div>
 </template>
@@ -21,7 +21,7 @@ export default {
     margin: 2px;
     min-height: 50px;
 
-    &.grayed {
+    &.another-month {
       color: gray
     }
   }

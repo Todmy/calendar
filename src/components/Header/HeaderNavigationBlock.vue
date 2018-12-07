@@ -1,19 +1,14 @@
 <template>
   <div class="navigation">
-    <button class="nav-button prev-month" @click="goto(-1)"></button>
-    <button class="nav-button" @click="$emit('today')">Today</button>
-    <button class="nav-button next-month" @click="goto(+1)"></button>
+    <button class="nav-button prev-month" @click="$emit('periodChange', -1)"></button>
+    <button class="nav-button" @click="$emit('periodChange', 0)">Today</button>
+    <button class="nav-button next-month" @click="$emit('periodChange', +1)"></button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'MonthHeaderNavigation',
-  methods: {
-    goto(offset = 0) {
-      this.$emit('periodChange', { offset })
-    },
-  }
+  name: 'HeaderNavigation',
 }
 </script>
 

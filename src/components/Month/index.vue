@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <Header
-      :pointerDate="pointerDate"
-      @periodChange="setPeriod"
-      @today="gotoToday"
+      :pointerDate.sync="pointerDate"
       @detalization="setDetalization"
     />
     <div class="header row">
@@ -36,7 +34,6 @@
 
 <script>
 import { startOfMonth, getCalendarMonthData, getPointerDate, format } from '../date-helpers'
-import ArrowNavigationMixin from '../eventsNavigation.mixin'
 import Cell from './Cell';
 import Header from '../Header';
 
@@ -46,7 +43,6 @@ export default {
     Cell,
     Header,
   },
-  mixins: [ArrowNavigationMixin],
   props: {
     options: {
       type: Object,
@@ -68,14 +64,8 @@ export default {
     },
   },
   methods: {
-    setPeriod({ offset = 0 }) {
-      this.pointerDate = getPointerDate({ pivot: this.pointerDate, offset, range: 'month' });
-    },
-    gotoToday() {
-      this.pointerDate = new Date();
-    },
     setDetalization(type, date = new Date()) {
-      this.$emit('typeChange', { type, typeData: { date } })
+      this.$emit('typeChange', { type, typeData: { date } });
     }
   },
 };

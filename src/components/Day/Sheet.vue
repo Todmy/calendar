@@ -21,7 +21,6 @@ export default {
   props: {
     day: {
       type: Date,
-      // TODO: make it required if it will be importantly to know exact date
       default: () => new Date(),
     },
   },
