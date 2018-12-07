@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { getPointerDate } from '../date-helpers';
+import { isIntervalsIntersect } from '../date-helpers';
 import Header from '../Header';
 import Sheet from './Sheet';
 
@@ -29,11 +29,17 @@ export default {
   data() {
     return {
       pointerDate: this.options.date,
-    }
+      content: this.getContent(this.options),
+    };
   },
   methods: {
     setDetalization(type, date = new Date()) {
       this.$emit('typeChange', { type, typeData: { date } })
+    },
+    getContent({ date, content }) {
+      return content
+        .filter(item => isIntervalsIntersect(date, item.date))
+        .map(item => item.payload);
     },
   },
 };

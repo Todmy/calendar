@@ -25,10 +25,10 @@ export default {
       type: Object,
       default: () => ({
         date: new Date(),
-        data: [{
+        content: [{
           date: {
-            start: new Date(2014, 8, 1, 11, 30),
-            end: new Date(2014, 8, 1, 12, 0),
+            start: new Date(2018, 11, 1, 11, 30),
+            end: new Date(2018, 11, 1, 12, 0),
           },
           payload: {
             id: 1,
@@ -52,7 +52,7 @@ export default {
   methods: {
     toggleType({ type, typeData }) {
       this.calendarType = type;
-      this.typeData = typeData;
+      this.typeData = Object.assign(typeData, { content: this.options.content });
     }
   }
 };

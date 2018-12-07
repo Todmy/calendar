@@ -11,6 +11,8 @@ import dfns, {
   format,
   startOfDay,
   setHours,
+  endOfDay,
+  isWithinInterval,
 } from 'date-fns';
 import { chain } from 'lodash';
 
@@ -88,10 +90,35 @@ function getDayHours(date) {
     .map((el, index) => setHours(el, index));
 }
 
+function isIntervalsIntersect(fInterval, sInterval) {
+  let firstInterval = fInterval;
+  let secondInterval = sInterval;
+  if (fInterval instanceof Date) {
+    firstInterval = {
+      start: startOfDay(fInterval),
+      end: endOfDay(fInterval),
+    };
+  }
+  if (sInterval instanceof Date) {
+    secondInterval = {
+      start: startOfDay(sInterval),
+      end: endOfDay(sInterval),
+    };
+  }
+
+  return (
+    isWithinInterval(firstInterval.start, secondInterval) ||
+    isWithinInterval(firstInterval.end, secondInterval) ||
+    isWithinInterval(secondInterval.start, firstInterval) ||
+    isWithinInterval(secondInterval.end, firstInterval)
+  );
+}
+
 export {
   startOfMonth,
   getCalendarMonthData,
   getPointerDate,
   getDayHours,
   format,
+  isIntervalsIntersect,
 };

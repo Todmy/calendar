@@ -25,7 +25,7 @@
       >
         <Cell
           @click.native="setDetalization('day', day.rawDate)"
-          :data="day"
+          :options="day"
         />
       </div>
     </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { startOfMonth, getCalendarMonthData, getPointerDate, format } from '../date-helpers'
+import { startOfMonth, getCalendarMonthData, format, isIntervalsIntersect } from '../date-helpers'
 import Cell from './Cell';
 import Header from '../Header';
 
@@ -56,7 +56,8 @@ export default {
   },
   computed: {
     month() {
-      return getCalendarMonthData({ date: this.pointerDate });
+      return getCalendarMonthData({ date: this.pointerDate })
+        .map(week => week.map(this.mergeWithContent));
     },
     weekDays() {
       const days = this.month[0];
@@ -66,6 +67,12 @@ export default {
   methods: {
     setDetalization(type, date = new Date()) {
       this.$emit('typeChange', { type, typeData: { date } });
+    },
+    mergeWithContent(day) {
+      const payload = this.options.content
+        .filter(item => isIntervalsIntersect(day.rawDate, item.date))
+        .map(item => item.payload);
+      return Object.assign(day, { payload })
     }
   },
 };

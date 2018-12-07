@@ -2,15 +2,15 @@
   <div
     class="cell"
     :class="{
-      'another-month': !data.isThisMonth
+      'another-month': !options.isThisMonth
     }"
-  >{{ data.day }}</div>
+  >{{ options.day }}</div>
 </template>
 
 <script>
 export default {
   name: 'MonthCell',
-  props: ['data']
+  props: ['options']
 };
 </script>
 
