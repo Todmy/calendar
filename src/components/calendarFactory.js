@@ -1,16 +1,15 @@
 import Calendar from './Calendar';
 import Day from './Day';
-import DefaultDayHeader from './Day/Header';
 import DefaultDaySheet from './Day/Sheet';
 import Month from './Month';
-import DefaultMonthHeader from './Month/Header';
+import DefaultHeader from './Header';
 import DefaultMonthCell from './Month/Cell';
 
 function init(config = {}) {
   const {
-    DayHeader = DefaultDayHeader,
+    DayHeader = DefaultHeader,
     DaySheet = DefaultDaySheet,
-    MonthHeader = DefaultMonthHeader,
+    MonthHeader = DefaultHeader,
     MonthCell = DefaultMonthCell,
   } = config;
 

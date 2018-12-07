@@ -1,6 +1,12 @@
 <template>
   <div class="day">
-    <Header :day="pointerDate" @dayChange="setPeriod" v-if="withHeader" />
+    <Header
+      :pointerDate="pointerDate"
+      @periodChange="setPeriod"
+      @today="gotoToday"
+      @detalization="setDetalization"
+      :forDay="true"
+    />
     <Sheet :day="pointerDate" />
   </div>
 </template>
@@ -8,7 +14,7 @@
 <script>
 import { startOfMonth, getPointerDate } from '../date-helpers';
 import ArrowNavigationMixin from '../eventsNavigation.mixin';
-import Header from './Header';
+import Header from '../Header';
 import Sheet from './Sheet';
 
 export default {
@@ -19,10 +25,6 @@ export default {
   },
   mixins: [ArrowNavigationMixin],
   props: {
-    withHeader: {
-      type: Boolean,
-      default: true,
-    },
     options: {
       type: Object,
       required: true,
@@ -48,6 +50,12 @@ export default {
         type: 'month',
         typeData: { date: this.pointerDate }
       })
+    },
+    gotoToday() {
+      this.pointerDate = new Date();
+    },
+    setDetalization(type, date = new Date()) {
+      this.$emit('typeChange', { type, typeData: { date } })
     },
   },
 };

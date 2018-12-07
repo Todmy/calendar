@@ -1,6 +1,20 @@
 <template>
   <div class="container">
-    <Header :month="month" @monthChange="setPeriod" v-if="withHeader" />
+    <Header
+      :pointerDate="pointerDate"
+      @periodChange="setPeriod"
+      @today="gotoToday"
+      @detalization="setDetalization"
+    />
+    <div class="header row">
+      <div
+        v-for="(weekDay, weekDayIndex) in weekDays"
+        :key="weekDayIndex"
+        class="col"
+      >
+        {{ weekDay }}
+      </div>
+    </div>
     <div
       v-for="(week, weekIndex) in month"
       :key="weekIndex"
@@ -12,7 +26,7 @@
         class="col"
       >
         <Cell
-          @click.native="$emit('typeChange', { type: 'day', typeData: { date: day.rawDate } })"
+          @click.native="setDetalization('day', day.rawDate)"
           :data="day"
         />
       </div>
@@ -21,10 +35,10 @@
 </template>
 
 <script>
-import { startOfMonth, getCalendarMonthData, getPointerDate } from '../date-helpers'
+import { startOfMonth, getCalendarMonthData, getPointerDate, format } from '../date-helpers'
 import ArrowNavigationMixin from '../eventsNavigation.mixin'
 import Cell from './Cell';
-import Header from './Header';
+import Header from '../Header';
 
 export default {
   name: 'Month',
@@ -33,30 +47,36 @@ export default {
     Header,
   },
   mixins: [ArrowNavigationMixin],
-  data() {
-    return {
-      pointerDate: this.options.date || startOfMonth(new Date()),
-    }
-  },
   props: {
-    withHeader: {
-      type: Boolean,
-      default: true,
-    },
     options: {
       type: Object,
       default: () => ({ date: startOfMonth(new Date()) }),
     },
   },
+  data() {
+    return {
+      pointerDate: this.options.date,
+    }
+  },
   computed: {
     month() {
       return getCalendarMonthData({ date: this.pointerDate });
+    },
+    weekDays() {
+      const days = this.month[0];
+      return days.map(day => format(day.rawDate, 'E'));
     },
   },
   methods: {
     setPeriod({ offset = 0 }) {
       this.pointerDate = getPointerDate({ pivot: this.pointerDate, offset, range: 'month' });
     },
+    gotoToday() {
+      this.pointerDate = new Date();
+    },
+    setDetalization(type, date = new Date()) {
+      this.$emit('typeChange', { type, typeData: { date } })
+    }
   },
 };
 </script>
@@ -74,6 +94,10 @@ $cols-per-row: 7;
     .col {
       min-width: calc(100% / 7);
     }
+  }
+
+  .header .col {
+    text-align: center;
   }
 }
 </style>
