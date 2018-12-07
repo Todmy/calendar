@@ -31,7 +31,7 @@ export default {
   },
   filters: {
     formatedTitle(value, isForDay) {
-      const formatCode = isForDay ? 'EEEE, MMMM dd, uuuu' : 'MMMM, uuuu';
+      const formatCode = isForDay ? 'dd MMMM uuuu' : 'MMMM uuuu';
       return format(value, formatCode);
     },
   },
