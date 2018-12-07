@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <div
-      v-for="(time, timeIndex) in timerange"
+      v-for="(time, timeIndex) in hours"
       :key="timeIndex"
       class="grid-item"
     >
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getDayData, format } from '../date-helpers';
+import { getDayHours, format } from '../date-helpers';
 
 export default {
   name: 'DaySheet',
@@ -26,8 +26,8 @@ export default {
     },
   },
   computed: {
-    timerange() {
-      return getDayData(this.day)
+    hours() {
+      return getDayHours(this.day)
     },
   },
   filters: {

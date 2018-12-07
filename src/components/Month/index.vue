@@ -16,7 +16,6 @@
           :data="day"
         />
       </div>
-
     </div>
   </div>
 </template>

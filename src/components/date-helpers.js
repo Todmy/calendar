@@ -19,16 +19,18 @@ function getCalendarMonthData(options = {}) {
   const start = startOfMonth(date);
   const end = endOfMonth(date);
   const allDays = eachDayOfInterval({ start, end });
-  return chain(allDays)
-    .groupBy(date => getWeek(date))
-    .toPairs()
-    // For meet edge cases of the end of a year
-    .sortBy(([key]) => (key === '1' ? 100 : +key))
-    .map(1)
-    .map(weekRecord => weekRecord.map(date => ({ date, isThisMonth: true })))
-    .map(fillEmptyDays)
-    .map(formatDates)
-    .value();
+  return (
+    chain(allDays)
+      .groupBy(date => getWeek(date))
+      .toPairs()
+      // For meet edge cases of the end of a year
+      .sortBy(([key]) => (key === '1' ? 100 : +key))
+      .map(1)
+      .map(weekRecord => weekRecord.map(date => ({ date, isThisMonth: true })))
+      .map(fillEmptyDays)
+      .map(formatDates)
+      .value()
+  );
 }
 
 function fillEmptyDays(week, index) {
@@ -78,7 +80,7 @@ function getPointerDate({ pivot, offset, range = 'month' }) {
   return dfns[`${fnPrefix}${fnSufix}`](pivot, absOffset);
 }
 
-function getDayData(date) {
+function getDayHours(date) {
   const numberOfHours = 24;
 
   return [...new Array(numberOfHours)]
@@ -90,6 +92,6 @@ export {
   startOfMonth,
   getCalendarMonthData,
   getPointerDate,
-  getDayData,
+  getDayHours,
   format,
 };
