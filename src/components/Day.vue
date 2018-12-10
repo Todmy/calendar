@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { isIntervalsIntersect } from '../date-helpers';
+import { isIntervalsIntersect } from './date-helpers';
 import Sheet from './Sheet';
 
 export default {

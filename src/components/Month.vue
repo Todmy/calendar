@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { startOfMonth, getCalendarMonthData, format, isIntervalsIntersect } from '../date-helpers'
+import { startOfMonth, getCalendarMonthData, format, isIntervalsIntersect } from './date-helpers'
 import Cell from './Cell';
 
 export default {
