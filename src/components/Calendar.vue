@@ -1,19 +1,31 @@
 <template>
-  <component
-    :is="calendarType"
-    @typeChange="toggleType"
-    :options="typeData"
-  />
+  <div>
+    <Header
+      :type="calendarType"
+      :pointerDate.sync="options.date"
+      @detalization="toggleType"
+    />
+
+    <component
+      :is="calendarType"
+      @typeChange="toggleType"
+      :options="typeData"
+    />
+  </div>
 </template>
 
 <script>
+import Header from './Header';
 import Month from './Month';
+import Week from './Week';
 import Day from './Day';
 
 export default {
   name: 'Calendar',
   components: {
+    Header,
     Month,
+    Week,
     Day,
   },
   props: {
@@ -27,8 +39,8 @@ export default {
         date: new Date(),
         content: [{
           date: {
-            start: new Date(2018, 11, 1, 11, 30),
-            end: new Date(2018, 11, 1, 12, 0),
+            start: new Date(2018, 11, 10, 11, 30),
+            end: new Date(2018, 11, 10, 12, 0),
           },
           payload: {
             id: 1,
@@ -50,10 +62,10 @@ export default {
     }
   },
   methods: {
-    toggleType({ type, typeData }) {
+    toggleType({ type, typeData = { date: new Date() } }) {
       this.calendarType = type;
       this.typeData = Object.assign(typeData, { content: this.options.content });
-    }
+    },
   }
 };
 </script>

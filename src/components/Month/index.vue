@@ -1,9 +1,5 @@
 <template>
   <div class="container">
-    <Header
-      :pointerDate.sync="pointerDate"
-      @detalization="setDetalization"
-    />
     <div class="header row">
       <div
         v-for="(weekDay, weekDayIndex) in weekDays"
@@ -35,14 +31,10 @@
 <script>
 import { startOfMonth, getCalendarMonthData, format, isIntervalsIntersect } from '../date-helpers'
 import Cell from './Cell';
-import Header from '../Header';
 
 export default {
   name: 'Month',
-  components: {
-    Cell,
-    Header,
-  },
+  components: { Cell },
   props: {
     options: {
       type: Object,

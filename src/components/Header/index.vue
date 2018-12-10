@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-nav">
-      <div class="title">{{ pointerDate | formatedTitle(forDay) }}</div>
+      <div class="title">{{ pointerDate | formatedTitle(type) }}</div>
       <Navigation @periodChange="setPeriod" />
       <DetailPrecision v-on="$listeners" />
     </div>
@@ -24,25 +24,24 @@ export default {
       type: Date,
       required: true,
     },
-    forDay: {
-      type: Boolean,
-      default: false,
+    type: {
+      type: String,
+      default: 'month',
     },
   },
   methods: {
     setPeriod(offset) {
       let date = new Date();
       if (offset !== 0) {
-        const range = this.forDay ? 'day' : 'month';
-        date = getPointerDate({ pivot: this.pointerDate, offset, range })
+        date = getPointerDate({ pivot: this.pointerDate, offset, range: this.type })
       }
 
       this.$emit('update:pointerDate', date)
     }
   },
   filters: {
-    formatedTitle(value, isForDay) {
-      const formatCode = isForDay ? 'dd MMMM uuuu' : 'MMMM uuuu';
+    formatedTitle(value, type) {
+      const formatCode = type === 'day' ? 'dd MMMM uuuu' : 'MMMM uuuu';
       return format(value, formatCode);
     },
   },
