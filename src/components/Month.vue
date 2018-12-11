@@ -41,12 +41,10 @@ export default {
       default: () => ({ date: startOfMonth(new Date()) }),
     },
   },
-  data() {
-    return {
-      pointerDate: this.options.date,
-    }
-  },
   computed: {
+    pointerDate() {
+      return this.options.date;
+    },
     month() {
       return getCalendarMonthData({ date: this.pointerDate })
         .map(week => week.map(this.mergeWithContent));

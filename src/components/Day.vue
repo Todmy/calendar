@@ -19,12 +19,10 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      pointerDate: this.options.date,
-    };
-  },
   computed: {
+    pointerDate() {
+      return this.options.date;
+    },
     content() {
       return this.options.content
         .filter(item => isIntervalsIntersect(this.pointerDate, item.date))

@@ -1,7 +1,7 @@
 import Calendar from './components/Calendar';
 import calendarFactory from './components/calendarFactory';
-import DaySheet from './components/Day/Sheet';
-import MonthCell from './components/Month/Cell';
+import DaySheet from './components/Sheet';
+import MonthCell from './components/Cell';
 import Header from './components/Header';
 
 const LibraryModule = {
@@ -11,7 +11,7 @@ const LibraryModule = {
   DaySheet,
   MonthCell,
 
-  // TODO: improve this after refactoring
+  // TODO: improve this after refactoring(include extending)
   install(Vue) {
     Vue.component('Calendar', Calendar);
   },

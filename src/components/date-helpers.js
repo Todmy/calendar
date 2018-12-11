@@ -12,7 +12,9 @@ import dfns, {
   startOfDay,
   setHours,
   endOfDay,
-  isWithinInterval,
+  startOfWeek,
+  endOfWeek,
+  areIntervalsOverlapping,
 } from 'date-fns';
 import { chain } from 'lodash';
 
@@ -106,12 +108,13 @@ function isIntervalsIntersect(fInterval, sInterval) {
     };
   }
 
-  return (
-    isWithinInterval(firstInterval.start, secondInterval) ||
-    isWithinInterval(firstInterval.end, secondInterval) ||
-    isWithinInterval(secondInterval.start, firstInterval) ||
-    isWithinInterval(secondInterval.end, firstInterval)
-  );
+  return areIntervalsOverlapping(firstInterval, secondInterval);
+}
+
+function getWeekDays(date, options) {
+  const start = startOfWeek(date, options);
+  const end = endOfWeek(date, options);
+  return eachDayOfInterval({ start, end });
 }
 
 export {
@@ -120,5 +123,6 @@ export {
   getPointerDate,
   getDayHours,
   format,
+  getWeekDays,
   isIntervalsIntersect,
 };

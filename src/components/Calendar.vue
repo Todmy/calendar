@@ -64,7 +64,7 @@ export default {
   methods: {
     toggleType({ type, typeData = { date: new Date() } }) {
       this.calendarType = type;
-      this.typeData = Object.assign(typeData, { content: this.options.content });
+      Object.assign(this.typeData, typeData, { content: this.options.content });
     },
   }
 };
